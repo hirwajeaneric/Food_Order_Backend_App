@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthPayload } from "../dto/Auth.dto";
-import { validateSignature } from "../utility";
+import { ValidateSignature } from "../utility";
 
 declare global {
     namespace Express {
         interface Request {
-            user?: AuthPayload;
+            user?: AuthPayload
         }
     }
 }
 
-export const Authentication = async (req: Request, res: Response, next: NextFunction) => {
-    const validate = await validateSignature(req);
+export const Authenticate = async (req: Request, res: Response, next: NextFunction) => {
+    const validate = await ValidateSignature(req);
     if (validate){
         next();
     } else {

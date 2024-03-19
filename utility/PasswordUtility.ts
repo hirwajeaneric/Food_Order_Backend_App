@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { VandorPayload } from '../dto';
 import { APP_SECRET } from '../config';
-import { Request } from 'express';
 import { AuthPayload } from '../dto/Auth.dto';
+import { Request } from 'express';
 
 /**
  * This function generates a salt to be used to generate passwords.
@@ -48,7 +48,7 @@ export const GenerateSignature = async (payload: VandorPayload) => {
  * @param req 
  * @returns 
  */
-export const validateSignature = async(req: Request) => {
+export const ValidateSignature = async(req: Request) => {
     const signature = req.get('Authorization');
     if (signature) {
         const payload = await jwt.verify(signature.split(' ')[1], APP_SECRET) as AuthPayload;
