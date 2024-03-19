@@ -36,7 +36,7 @@ export const GetVandorProfile = async (req: Request, res: Response, next: NextFu
 export const UpdateVandorProfile = async (req: Request, res: Response, next: NextFunction) => {
     const { address, name, foodType, phone } = <EditVandorInput>req.body;
     const user = req.user;
-    
+
     if (user) {
         const existingVandor = await FindVandor(user._id);
         if (existingVandor !== null) {
@@ -54,5 +54,16 @@ export const UpdateVandorProfile = async (req: Request, res: Response, next: Nex
 };
 
 export const UpdateVandorService = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (user) {
+        const existingVandor = await FindVandor(user._id);
+        if (existingVandor !== null) {
+            existingVandor.serviceAvailable = !existingVandor.serviceAvailable;
 
+            const savedResult = await existingVandor.save();
+            return res.json(savedResult);
+        }
+        return res.json(existingVandor);
+    }
+    return res.json({ message: "Vandor information not found"});
 };
