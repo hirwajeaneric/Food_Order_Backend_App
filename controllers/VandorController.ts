@@ -100,7 +100,10 @@ export const AddFood = async (req: Request, res: Response, next: NextFunction) =
 export const GetFoods = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     if (user) {
-        
+        const foods = await Food.find({ vandorId: user._id });
+        if (foods !== null) {
+            return res.json(foods);
+        }
     }
     return res.json({ message: "Foods information not found"});
 };

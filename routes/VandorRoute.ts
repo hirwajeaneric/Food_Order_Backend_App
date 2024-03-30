@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
-import { VandorLogin, GetVandorProfile, UpdateVandorProfile, UpdateVandorService, AddFood } from "../controllers/VandorController";
+import { VandorLogin, GetVandorProfile, UpdateVandorProfile, UpdateVandorService, AddFood, GetFoods } from "../controllers/VandorController";
 import { Authenticate } from "../middlewares/CommonAuth";
 
 const router = express.Router();
@@ -10,9 +10,7 @@ router.get('/profile', GetVandorProfile);
 router.patch('/profile', UpdateVandorProfile);
 router.patch('/service', UpdateVandorService);
 router.post('/food', AddFood);
-router.get('/foods', (req: Request, res: Response, next: NextFunction) => {
-    res.json({ message: 'Hello from Admin'})
-});
+router.get('/foods', GetFoods);
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.json({ message: 'Hello from Admin'})
 });
