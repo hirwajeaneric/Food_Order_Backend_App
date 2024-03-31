@@ -32,7 +32,7 @@ export const GetVandorProfile = async (req: Request, res: Response, next: NextFu
         const existingVandor = await FindVandor(user._id);
         return res.json(existingVandor);
     }
-    return res.json({ message: "Vandor information not found"});
+    return res.json({ message: "Vandor information not found" });
 };
 
 export const UpdateVandorProfile = async (req: Request, res: Response, next: NextFunction) => {
@@ -52,7 +52,24 @@ export const UpdateVandorProfile = async (req: Request, res: Response, next: Nex
         }
         return res.json(existingVandor);
     }
-    return res.json({ message: "Vandor information not found"});
+    return res.json({ message: "Vandor information not found" });
+};
+
+export const UpdateVandorCoverImage = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (user) {
+        const vandor = await FindVandor(user._id);
+
+        if (vandor !== null) {
+            const files = req.files as [Express.Multer.File];
+            const images = files.map((file: Express.Multer.File) => file.filename);
+
+            vandor.coverImage.push(...images);
+            const result = await vandor.save();
+            return res.json(result);
+        }
+    }
+    return res.json({ message: "Something went wrong with add food" });
 };
 
 export const UpdateVandorService = async (req: Request, res: Response, next: NextFunction) => {
@@ -67,19 +84,19 @@ export const UpdateVandorService = async (req: Request, res: Response, next: Nex
         }
         return res.json(existingVandor);
     }
-    return res.json({ message: "Vandor information not found"});
+    return res.json({ message: "Vandor information not found" });
 };
 
 export const AddFood = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
     if (user) {
-
-        const files = req.files as [Express.Multer.File];
-        const images = files.map((file: Express.Multer.File) => file.filename );
-
         const { name, description, category, foodType, readyTime, price } = <CreateFoodinput>req.body;
         const vandor = await FindVandor(user._id);
+
         if (vandor !== null) {
+            const files = req.files as [Express.Multer.File];
+            const images = files.map((file: Express.Multer.File) => file.filename);
+
             const createFood = await Food.create({
                 vandorId: vandor._id,
                 name: name,
@@ -98,7 +115,7 @@ export const AddFood = async (req: Request, res: Response, next: NextFunction) =
             return res.json(result);
         }
     }
-    return res.json({ message: "Something went wrong with add food"});
+    return res.json({ message: "Something went wrong with add food" });
 };
 
 export const GetFoods = async (req: Request, res: Response, next: NextFunction) => {
@@ -109,5 +126,5 @@ export const GetFoods = async (req: Request, res: Response, next: NextFunction) 
             return res.json(foods);
         }
     }
-    return res.json({ message: "Foods information not found"});
+    return res.json({ message: "Foods information not found" });
 };
