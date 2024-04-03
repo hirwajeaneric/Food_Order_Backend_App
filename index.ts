@@ -1,24 +1,15 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
-import path from 'path';
+import App from './services/ExpressApp';
+import dbConnection from './services/Database';
 
-import { AdminRoute, VandorRoute } from './routes';
-import { MONGO_URI } from './config';
+const StartServer = async () => {
+    const app = express();
+    await dbConnection();
+    await App(app);
 
-const app = express();
+    app.listen(8000, () => {
+        console.log('Server running on port 3000');
+    });
+}
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/images', express.static(path.join(__dirname, 'images')))
-
-app.use('/admin', AdminRoute);
-app.use('/vandor', VandorRoute);
-
-mongoose.connect(MONGO_URI)
-.then(result => console.log("DB Connected"))
-.catch(err => console.log('error'+err));
-app.listen(8000, () => {
-    console.clear();
-    console.log('App is listening on http://localhost:8000');
-});
+StartServer();
