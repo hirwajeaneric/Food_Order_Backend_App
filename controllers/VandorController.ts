@@ -3,7 +3,7 @@ import { EditVandorInput, VandorLoginInputs } from "../dto";
 import { FindVandor } from "./AdminController";
 import { GenerateSignature, ValidatePassword } from "../utility";
 import { CreateFoodinput } from "../dto/Food.dto";
-import Food from "../model/Food";
+import Food from "../models/Food";
 
 export const VandorLogin = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = <VandorLoginInputs>req.body;

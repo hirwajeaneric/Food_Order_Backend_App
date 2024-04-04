@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { CreateVandorInput } from "../dto";
-import { Vandor } from "../model";
+import { Vandor } from "../models";
 import { GeneratePassword, GenerateSalt } from "../utility";
 
 export const FindVandor = async (id: string | undefined, email?: string) => {
