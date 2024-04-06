@@ -58,3 +58,4 @@ export const GetVandorById = async (req: Request, res: Response, next: NextFunct
     }
     return res.json({ "message": "Vandor data not available" });
 }
+
