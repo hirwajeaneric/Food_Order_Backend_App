@@ -39,14 +39,15 @@ export const ValidatePassword = async (enteredPassword: string, savedPassword: s
  * @param payload an object that contains some information about the logged in user.
  * @returns signature string of text (a jwt token)
  */
-export const GenerateSignature = async (payload: VandorPayload) => {
+export const GenerateSignature = async (payload: AuthPayload) => {
     return await jwt.sign(payload, APP_SECRET, { expiresIn: '1d'}) // Other possible time of expiration formats are: 30m, 1h, 1d,...
 };
 
 /**
- * 
+ * Validates a user signature to determind if a user sending a request is authorized.
+ * It recieves the server request and returns a boolean value indicating whether the user is authorized or not.
  * @param req 
- * @returns 
+ * @returns true | false
  */
 export const ValidateSignature = async(req: Request) => {
     const signature = req.get('Authorization');

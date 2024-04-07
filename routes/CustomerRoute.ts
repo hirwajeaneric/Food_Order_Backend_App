@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { CustomerSignup, CustomerLogin, CustomerVerify, RequestOtp, GetCustomerProfile, EditCustomerProfile } from '../controllers';
+import { Authenticate } from '../middlewares/CommonAuth';
 
 const router = express.Router();
 
@@ -10,6 +11,8 @@ router.post('/signup', CustomerSignup);
 router.post('/login', CustomerLogin);
 
 // Authentication
+router.use(Authenticate);
+
 /** ----------------------------- Verify Customer Account ----------------------------- */
 router.patch('/verify', CustomerVerify);
 
