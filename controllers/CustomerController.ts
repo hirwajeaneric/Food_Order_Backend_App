@@ -90,7 +90,7 @@ export const CustomerSignup = async (req: Request, res: Response, next: NextFunc
 export const CustomerLogin = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     // Validate the login input data.
     const loginInputs = plainToClass(UserLoginInputs, req.body);
-    const loginErrors = await validate(loginInputs, { ValidationError: { target: false } });
+    const loginErrors = await validate(loginInputs, { validationError: { target: false } });
     if (loginErrors.length > 0) {
         return res.status(400).json(loginErrors);
     };
